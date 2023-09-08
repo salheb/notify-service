@@ -1,0 +1,19 @@
+[package]
+name = "notify-service"
+version = "0.1.0"
+edition = "2021"
+authors = ["julio-nogueira"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies.rdkafka]
+version     = "0.34.0"
+features    = ["ssl", "sasl"]
+
+[dependencies]
+dotenv = "0.15.0"
+futures = "0.3.28"
+tokio = { version = "1.32.0", features = ["full"] }
+clap    = "4.4.1"
+simple_logger = "4.2.0"
+log = "*"
