@@ -68,8 +68,5 @@ COPY --from=builder /lib/${ARCH}-linux-gnu/libz.so.1* /lib/${ARCH}-linux-gnu/
 COPY --from=builder /usr/local/cargo/bin/notify-service /usr/local/bin/notify-service
 COPY .env.docker ./.env
 
-# Expose listening port for application
-EXPOSE 8080
-
 # Run the application
 CMD ["notify-service"]

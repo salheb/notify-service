@@ -35,24 +35,28 @@ impl ConsumerContext for CustomContext {
 
 pub async fn start_kafka_consumers(){
     //let context = CustomContext;
-
+    log::info!("Creating consumer within server {} and group id {}", util::get_env_value("kakfa_broker"), util::get_env_value("group_id"));
     let consumer: StreamConsumer = ClientConfig::new()
         .set("bootstrap.servers", util::get_env_value("kakfa_broker"))
+        .set("group.id", util::get_env_value("group_id"))
+        .set("enable.partition.eof", "false")
         //.set("security.protocol", util::get_env_value("security_protocol"))
         //.set("sasl.mechanisms", util::get_env_value("sasl_mechanisms"))
         //.set("sasl.username", util::get_env_value("sasl_username"))
         //.set("sasl.password", util::get_env_value("sasl_password"))
-        //.set("session.timeout.ms", util::get_env_value("session_timeout_ms"))
-        //.set("group.id", util::get_env_value("group_id"))
+        .set("session.timeout.ms", util::get_env_value("session_timeout_ms"))
+        .set("enable.auto.commit", "false")
+        
         .create()
-        .expect("Failed to create kafka consumer.");
+        .expect("Failed to connect to kafka server");
 
     let topic = util::get_env_value("topic_messaging");
     //let topic_dlq = util::get_env_value("topic_messaging_dlq");
+    log::info!("Topic name {}", topic);
 
     consumer
         .subscribe(&[&topic])
-        .expect("Can't subscribe to specified topic: messaging.");
+        .expect("Can't subscribe to specified topic: &topic.");
 
 
     loop {

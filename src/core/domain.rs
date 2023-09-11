@@ -1,12 +1,11 @@
-use rdkafka::config::ClientConfig;
+use serde::{Deserialize, Serialize};
 
-pub struct KakfaConfiguration{
-    pub kafka_config: ClientConfig,
-    pub kakfa_broker: String,
-    pub security_protocol: String,
-    pub sasl_mechanisms: String,
-    pub sasl_username: String,
-    pub sasl_password: String,
-    pub topic_message: String,
-    pub topic_message_dlq: String
+#[derive(Serialize, Deserialize, ToSchema)]
+pub struct Message{
+    pub account: i32,
+    // API = 1, SMS = 2, MAIL = 3, WHATSAPP = 4
+    pub destination_type: i32,
+    pub phone_number: String,
+    pub mail_address: String,
+    pub content: String,
 }
